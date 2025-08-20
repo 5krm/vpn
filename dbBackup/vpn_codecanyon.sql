@@ -387,8 +387,8 @@ CREATE TABLE `package_pricings` (
 --
 -- Dumping data for table `package_pricings`
 --
-
-INSERT INTO `package_pricings` (`id`, `package_name`, `product_id`, `package_duration`, `package_price`, `status`, `created_at`, `updated_at`) VALUES
+INSERT INTO "package_pricings" ("id", "package_name", "product_id", "package_duration", "package_price", "status", "created_at", "updated_at") 
+VALUES
 (1, 'Basic Plan', '123', 7, 5.99, 0, '2024-12-11 03:40:10', '2024-12-11 03:40:47'),
 (2, 'Advanced Plan', '345', 30, 19.99, 0, '2024-12-11 03:41:12', '2024-12-11 03:41:12'),
 (3, 'Premium Plan', '789', 90, 40.00, 0, '2024-12-11 03:41:30', '2024-12-11 03:41:30'),
@@ -441,7 +441,8 @@ CREATE TABLE `permissions` (
 -- Dumping data for table `permissions`
 --
 
-INSERT INTO `permissions` (`id`, `name`, `guard_name`, `group_name`, `created_at`, `updated_at`) VALUES
+INSERT INTO "permissions" ("id", "name", "guard_name", "group_name", "created_at", "updated_at")
+VALUES
 (1, 'dashboard.view', 'admin', 'dashboard', '2024-12-19 06:24:59', '2024-12-19 06:24:59'),
 (2, 'role.view', 'admin', 'role', '2024-12-19 06:24:59', '2024-12-19 06:24:59'),
 (3, 'role.create', 'admin', 'role', '2024-12-19 06:24:59', '2024-12-19 06:24:59'),

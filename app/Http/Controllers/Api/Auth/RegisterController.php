@@ -47,7 +47,6 @@ class RegisterController extends BaseController
                 'name' => 'required|string|max:100',
                 'email' => 'required|email|unique:users,email',
                 'phone' => 'required|unique:users,phone',
-                'device_id' => 'required|string|max:255',
                 'password' => 'required|string|min:8',
                 'profile_image' => 'nullable|file|mimes:jpg,png,jpeg|max:2048', 
             ]);
@@ -56,19 +55,9 @@ class RegisterController extends BaseController
                 return $this->validationErrorResponse($validator);
             }
 
-            $existingUser = User::where('device_id', $request->device_id)->first();
-
-            if (!$existingUser) {
-                return $this->formatResponse(null, 'Invalid device ID.', 400);
-            }
-
-            if ($existingUser->login_mode === 'pro') {
-                return $this->formatResponse(null, 'User already registered with this device.', 409);
-            }
-
             $profileImagePath = $this->handleUploadedFile($request->file('profile_image'));
 
-            $existingUser->update([
+            $user = User::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'phone' => $request->phone,
@@ -78,8 +67,8 @@ class RegisterController extends BaseController
                 'status' => 0,
             ]);
 
-            $token = $existingUser->createToken('user_token')->plainTextToken;
-            return $this->successResponse($existingUser, $token, 'User registration successful.');
+            $token = $user->createToken('user_token')->plainTextToken;
+            return $this->successResponse($user, $token, 'User registration successful.');
 
         }catch(\Exception $e) {
             return $this->handleException($e);
