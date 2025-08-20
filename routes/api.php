@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\AppSettingsController;
 
 
 // User Auth API
+Route::post('device_register', [RegisterController::class, 'registerDevice']);
 Route::post('user_registration', [RegisterController::class, 'registerUser']);
 Route::post('send-otp', [OTPController::class, 'sendOtp']);
 Route::post('verify-otp', [OTPController::class, 'verifyOtp']);

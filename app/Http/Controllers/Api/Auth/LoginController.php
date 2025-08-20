@@ -16,6 +16,7 @@ class LoginController extends BaseController
     {
         try {
             $validator = Validator::make($request->all(), [
+                'device_id' => 'required|string|max:255',
                 'email' => 'required|email',
                 'password' => 'required|string',
             ]);
@@ -24,7 +25,19 @@ class LoginController extends BaseController
                 return $this->validationErrorResponse($validator);
             }
 
-            // Device ID authentication removed - login with email/password only
+            $appSettings = AppSetting::first();
+            $loginSystemType = $appSettings->login_system_type ?? 'email_password_only';
+
+            if ($loginSystemType === 'device_id_required') {
+                // Require device ID for login
+                $existingUser = User::where('device_id', $request->device_id)
+                            ->where('email', $request->email)
+                            ->first();
+
+                if (!$existingUser) {
+                    return $this->formatResponse(null, "You can't login from this device.", 409);
+                }
+            }
 
            $remember = !empty($request->remember) ? true : false;
             if (Auth::attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
@@ -49,7 +62,7 @@ class LoginController extends BaseController
             'data' => [
                 'user' => $user->only(
                     'id', 'name', 'email', 'phone',
-                    'login_mode', 'profile_image', 'created_at', 'updated_at'
+                    'login_mode', 'device_id', 'profile_image', 'created_at', 'updated_at'
                 ),
                 'access_token' => $token,
                 'token_type' => 'Bearer'
