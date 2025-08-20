@@ -32,10 +32,11 @@ class AuthController extends Controller
 
         if(Auth::guard("admin")->attempt(['email' => $request->email, 'password' => $request->password], $remember)) {
             $admin = Auth::guard('admin')->user();
-            if ($admin->status === 0) {
-                Auth::guard('admin')->logout();
-                return redirect()->back()->with('error', 'Your account has been blocked.');
-            }
+            // Removed blocking logic - admins can now login regardless of status
+            // if ($admin->status === 1) {
+            //     Auth::guard('admin')->logout();
+            //     return redirect()->back()->with('error', 'Your account has been blocked.');
+            // }
     
             return redirect('admin/dashboard')->with('success', 'Welcome back, ' . $admin->name . '! You have successfully logged in.');
         }else {
