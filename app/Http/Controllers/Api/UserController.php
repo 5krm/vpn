@@ -24,7 +24,7 @@ class UserController extends BaseController
                 $user->userPackageDetails->package_name = $user->userPackageDetails->packagePricing->package_name;
             }
 
-            return $this->formatResponse($user, 'User info retrieved successfully');
+            return $this->formatResponse('User info retrieved successfully', $user);
         }catch(\Exception $e){
             return $this->handleException($e);
         }

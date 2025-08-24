@@ -36,7 +36,7 @@ class BaseController extends Controller
     }
 
     // Common function to format response
-    protected function formatResponse($data = null, $message, $statusCode = 200) {
+    protected function formatResponse($message, $data = null, $statusCode = 200) {
         $response = [
             'status' => ($statusCode === 200) ? 'success' : 'error',
             'message' => $message,

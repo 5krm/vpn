@@ -12,7 +12,7 @@ class AppSettingsController extends BaseController
         try {
             $appSettingsData = AppSetting::first();
             
-            return $this->formatResponse($appSettingsData, 'App settings data retrieved successfully');
+            return $this->formatResponse('App settings data retrieved successfully', $appSettingsData);
 
         }catch(\Exception $e){
             return $this->handleException($e);

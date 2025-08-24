@@ -12,7 +12,7 @@ class PageController extends BaseController
         try {
             $pages = Page::all();
             
-            return $this->formatResponse($pages, 'Pages retrieved successfully');
+            return $this->formatResponse('Pages retrieved successfully', $pages);
 
         }catch(\Exception $e){
             return $this->handleException($e);
@@ -25,7 +25,7 @@ class PageController extends BaseController
         try {
             $page = Page::where('slug', $slug)->first();
 
-            return $this->formatResponse($page, 'Page content retrieved successfully');
+            return $this->formatResponse('Page content retrieved successfully', $page);
 
         } catch (Exception $e) {
             return $this->handleException($e);

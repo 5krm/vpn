@@ -14,7 +14,7 @@ class PackagePricingController extends BaseController
         try {
             $pricingList = PackagePricing::get();
             
-            return $this->formatResponse($pricingList, "Package pricing retrieved successfully.");
+            return $this->formatResponse("Package pricing retrieved successfully.", $pricingList);
         } catch (\Exception $e) {
             return $this->handleException($e);
         }

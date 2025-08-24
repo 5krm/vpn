@@ -109,6 +109,8 @@ class UserController extends Controller
         $user->login_mode = $request->login_mode;
         $user->status = $request->status;
         $user->is_verified = 1; // Admin created users are verified by default
+        $user->device_id = 'admin_created_' . time(); // Generate unique device_id for admin created users
+        $user->expires_at = now()->addYears(10); // Set expiry to 10 years for admin created users
         $user->save();
 
         // Assign package if selected and user is pro

@@ -12,7 +12,7 @@ class AdvertisementController extends BaseController
         try {
             $advertisementData = Advertisement::first();
             
-            return $this->formatResponse($advertisementData, 'Advertisement data retrieved successfully');
+            return $this->formatResponse('Advertisement data retrieved successfully', $advertisementData);
 
         }catch(\Exception $e){
             return $this->handleException($e);
