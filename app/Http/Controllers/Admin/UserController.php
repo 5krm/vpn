@@ -73,10 +73,6 @@ class UserController extends Controller
      * Show the form for creating a new user
      */
     public function add() {
-        if (is_null($this->user) || !$this->user->can('user.create')) {
-            return back()->with('error', 'Access Denied: You do not have permission to create new users');
-        }
-
         $data['headerTitle'] = 'Add New User';
         $data['pricings'] = PackagePricing::where('status', 0)->get();
 
@@ -87,9 +83,6 @@ class UserController extends Controller
      * Store a newly created user in storage
      */
     public function insert(Request $request) {
-        if (is_null($this->user) || !$this->user->can('user.create')) {
-            abort(403, 'Access Denied: You do not have permission to create new users');
-        }
 
         $request->validate([
             'name' => 'required|string|max:255',
@@ -137,10 +130,6 @@ class UserController extends Controller
      * Show the form for editing the specified user
      */
     public function edit($id) {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return back()->with('error', 'Access Denied: You do not have permission to edit users.');
-        }
-
         $data['user'] = User::with('userPackageDetails')->find($id);
 
         if(!empty($data['user'])) {
@@ -157,9 +146,6 @@ class UserController extends Controller
      * Update user basic information
      */
     public function updateUserInfo(Request $request) {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return back()->with('error', 'Access Denied: You do not have permission to edit users.');
-        }
 
         $user = User::find($request->user_id);
         
@@ -214,9 +200,6 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return back()->with('error', 'Access Denied: You do not have permission to edit user.');
-        }
 
         $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -252,10 +235,6 @@ class UserController extends Controller
      * Toggle user status (activate/deactivate)
      */
     public function toggleStatus($id) {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return response()->json(['error' => 'Access Denied: You do not have permission to change user status.'], 403);
-        }
-
         $user = User::find($id);
 
         if (empty($user)) {
@@ -275,10 +254,6 @@ class UserController extends Controller
      * Upgrade user to Pro
      */
     public function upgradeToPro($id) {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return response()->json(['error' => 'Access Denied: You do not have permission to upgrade users.'], 403);
-        }
-
         $user = User::find($id);
 
         if (empty($user)) {
@@ -299,10 +274,6 @@ class UserController extends Controller
      * Downgrade user to Guest
      */
     public function downgradeToGuest($id) {
-        if (is_null($this->user) || !$this->user->can('user.edit')) {
-            return response()->json(['error' => 'Access Denied: You do not have permission to downgrade users.'], 403);
-        }
-
         $user = User::find($id);
 
         if (empty($user)) {
@@ -326,10 +297,6 @@ class UserController extends Controller
      * Delete the specified user
      */
     public function delete($id) {
-        if (is_null($this->user) || !$this->user->can('user.delete')) {
-            return back()->with('error', 'Access Denied: You do not have permission to delete user.');
-        }
-
         $user = User::find($id);
 
         if (empty($user)) {
