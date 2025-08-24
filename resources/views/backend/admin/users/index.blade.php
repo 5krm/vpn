@@ -7,6 +7,13 @@
         <div class="col-sm-6 pb-2 pb-sm-0">
           <h1 class="textWhite">User List</h1>
         </div>
+        <div class="col-sm-6">
+          <div class="float-sm-right">
+            <a href="{{ url('admin/users/add') }}" class="btn btn-primary">
+              <i class="fas fa-plus"></i> Add New User
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -190,6 +197,70 @@
           },
           error: function() {
             errorToast('Failed to delete user.');
+          }
+        });
+      }
+    });
+
+    // Handle Toggle Status Button Click
+    $('#usersTable').on('click', '.toggle-status-btn', function() {
+      const userId = $(this).data('id');
+      
+      $.ajax({
+        url: `/admin/users/${userId}/toggle-status`,
+        type: 'POST',
+        data: {
+          _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+          successToast(response.message);
+          usersTable.ajax.reload(null, false);
+        },
+        error: function() {
+          errorToast('Failed to toggle user status.');
+        }
+      });
+    });
+
+    // Handle Upgrade to Pro Button Click
+    $('#usersTable').on('click', '.upgrade-pro-btn', function() {
+      const userId = $(this).data('id');
+      
+      if (confirm('Are you sure you want to upgrade this user to Pro?')) {
+        $.ajax({
+          url: `/admin/users/${userId}/upgrade-pro`,
+          type: 'POST',
+          data: {
+            _token: '{{ csrf_token() }}'
+          },
+          success: function(response) {
+            successToast(response.message);
+            usersTable.ajax.reload(null, false);
+          },
+          error: function() {
+            errorToast('Failed to upgrade user to Pro.');
+          }
+        });
+      }
+    });
+
+    // Handle Downgrade to Guest Button Click
+    $('#usersTable').on('click', '.downgrade-guest-btn', function() {
+      const userId = $(this).data('id');
+      
+      if (confirm('Are you sure you want to downgrade this user to Guest?')) {
+        $.ajax({
+          url: `/admin/users/${userId}/downgrade-guest`,
+          type: 'POST',
+          data: {
+            _token: '{{ csrf_token() }}'
+          },
+          success: function(response) {
+            successToast(response.message);
+            usersTable.ajax.reload(null, false);
+          },
+          error: function() {
+            errorToast('Failed to downgrade user to Guest.');
           }
         });
       }

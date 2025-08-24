@@ -61,8 +61,15 @@ Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function() 
 
     // User Routes
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/add', [UserController::class, 'add'])->name('users.add');
+    Route::post('/users/add', [UserController::class, 'insert'])->name('users.insert');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::post('/users/edit', [UserController::class, 'updateUserInfo'])->name('users.updateInfo');
     Route::get('/users/{id}', [UserController::class, 'getUserById']);
     Route::post('/users/edit', [UserController::class, 'update'])->name('users.update');
+    Route::post('/users/{id}/toggle-status', [UserController::class, 'toggleStatus'])->name('users.toggleStatus');
+    Route::post('/users/{id}/upgrade-pro', [UserController::class, 'upgradeToPro'])->name('users.upgradePro');
+    Route::post('/users/{id}/downgrade-guest', [UserController::class, 'downgradeToGuest'])->name('users.downgradeGuest');
     Route::delete('/users/{id}', [UserController::class, 'delete'])->name('users.delete');
 
     // Notification Routes
